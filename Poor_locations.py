@@ -37,7 +37,9 @@ def map_bathing_quality():
     france = gpd.read_file('Data/Maps/gadm41_FRA_1.shp')
 
     # create a geopandas dataframe for locations
-    locations = gpd.GeoDataFrame(geometry=gpd.points_from_xy(df['lon'], df['lat']), data=df[['nameText', 'quality2021']])
+    locations = gpd.GeoDataFrame(geometry=gpd.points_from_xy(df['lon'], df['lat']),
+                                 data=df[['nameText', 'quality2021']])
+    print(locations.head())
 
     # group by quality, in our desired order
     desired_order = {'Excellent': 0, 'Good': 1, 'Sufficient': 2, 'Poor': 3}
@@ -45,7 +47,7 @@ def map_bathing_quality():
     locations = locations.groupby(qualities)
 
     # plot the map and locations
-    fig, ax = plt.subplots(figsize=(10,10))
+    fig, ax = plt.subplots(figsize=(10, 10))
     france.plot(ax=ax, alpha=0.4, color='grey')
 
     # we plot different qualities in different colours
@@ -55,5 +57,6 @@ def map_bathing_quality():
 
     plt.legend()
     plt.show()
+
 
 map_bathing_quality()
