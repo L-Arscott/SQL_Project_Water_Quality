@@ -31,10 +31,12 @@ def map_bathing_quality():
 
     # Create a pandas DataFrame from the list of tuples:
     df = pd.DataFrame(myresult, columns=['nameText', 'lon', 'lat', 'quality2021'])
+    print(df.value_counts('quality2021'))  # Provide a count
 
     # Plotting data
     # load map of France using geopandas
     france = gpd.read_file('Data/Maps/gadm41_FRA_1.shp')
+    print(france.head())
 
     # create a geopandas dataframe for locations
     locations = gpd.GeoDataFrame(geometry=gpd.points_from_xy(df['lon'], df['lat']),
