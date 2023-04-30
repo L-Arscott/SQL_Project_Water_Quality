@@ -59,7 +59,7 @@ def cluster_analysis(zone: str, max_clusters: int = 20):
 def cluster_data():
     # Used to record optimal number of clusters
     # Also records points that don't fit in
-    n_optimal = {'RiverBathingWater': 4, 'LakeBathingWater': 7}
+    n_optimal = {'riverBathingWater': 4, 'lakeBathingWater': 7}
     omit = ['CAMPING-PLAGE DU FLECKENSTEIN LEMBACH']
 
     return n_optimal, omit
