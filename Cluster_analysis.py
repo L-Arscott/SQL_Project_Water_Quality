@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
 ##
-def cluster_analysis(zone: str, max_clusters: int=20):
+def cluster_analysis(zone: str, max_clusters: int = 20):
     # Obtain data
     with open('password.txt') as f:
         my_password = f.readline()
@@ -26,9 +26,9 @@ def cluster_analysis(zone: str, max_clusters: int=20):
     SELECT
         nameText, lon, lat
     FROM fr_bw2021 WHERE quality2021 <> 'Not classified' AND lon BETWEEN -20 AND 20 AND lat BETWEEN 30 AND 60
-        AND specialisedZoneType = zone
+        AND specialisedZoneType = %s
     '''
-    mycursor.execute(query)  # Issue SQL query
+    mycursor.execute(query, (zone,))  # Issue SQL query
     myresult = mycursor.fetchall()  # Retrieve results
 
     # Create a pandas DataFrame from the list of tuples:
