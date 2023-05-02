@@ -29,7 +29,14 @@ def _obtain_data():
     # SQL query
     query = '''
     SELECT
-        nameText, specialisedZoneType, lon, lat
+        nameText, specialisedZoneType, lon, lat,
+        CAST(CASE quality2021
+        WHEN 'Excellent' THEN 0
+        WHEN 'Good' THEN 1
+        WHEN 'Sufficient' THEN 4
+        WHEN 'Poor' THEN 5
+        ELSE NULL
+    END AS FLOAT) AS quality_num
     FROM fr_bw2021 WHERE quality2021 <> 'Not classified' AND lon BETWEEN -20 AND 20 AND lat BETWEEN 30 AND 60
         AND specialisedZoneType <> 'TransitionalBathingWater'
     '''
@@ -37,7 +44,7 @@ def _obtain_data():
     myresult = mycursor.fetchall()  # Retrieve results
 
     # Create a pandas DataFrame from the list of tuples:
-    df = pd.DataFrame(myresult, columns=['nameText', 'specialisedZoneType', 'lon', 'lat'])
+    df = pd.DataFrame(myresult, columns=['nameText', 'specialisedZoneType', 'lon', 'lat', 'quality_num'])
 
     # Remove omitted locations (maybe just do this via query)
     mask = ~df['nameText'].isin(omit)  # Create a boolean mask based on the list of names
@@ -54,7 +61,6 @@ def _plot_clusters(dff_zones):
     # create a geopandas dataframe for locations
     locations = gpd.GeoDataFrame(geometry=gpd.points_from_xy(dff_zones['lon'], dff_zones['lat']),
                                  data=dff_zones[['nameText', 'labels']])
-    print(locations.head())
 
     # group by cluster, in our desired order
     locations = locations.groupby('labels')
@@ -100,7 +106,6 @@ def data_split(plot=False):
                                                      test_size=0.2, random_state=42)
                 train_dfs.append(train_df)
                 test_dfs.append(test_df)
-                print(test_df)
 
         else:
             train_df, test_df = train_test_split(dff_zone, test_size=0.2, random_state=42)
@@ -111,6 +116,3 @@ def data_split(plot=False):
     test_set = pd.concat(test_dfs)
 
     return training_set, test_set
-
-
-our_training_set, our_test_set = data_split()
