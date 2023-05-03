@@ -1,5 +1,6 @@
 # SQL Project: Bathing water qualities in France
-Data obtained [here](https://www.eea.europa.eu/data-and-maps/data/bathing-water-directive-status-of-bathing-water-14) (European Environment Agency)
+See [here](https://github.com/L-Arscott/SQL_Project_Water_Quality/blob/master/README.md) for optimal view.  
+Data obtained [here](https://www.eea.europa.eu/data-and-maps/data/bathing-water-directive-status-of-bathing-water-14) (European Environment Agency).
 
 <p>
  <img src="https://user-images.githubusercontent.com/64332150/235879883-ad6b6379-938e-447e-8505-8f91b352c38b.png" height="378" />
