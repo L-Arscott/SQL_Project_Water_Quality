@@ -58,6 +58,8 @@ def map_bathing_quality():
         dff.plot(ax=ax, markersize=2, color=colors[quality], label=f'{quality} quality')
 
     plt.title('Bathing water quality')
+    plt.xlabel('Longitude (degrees)')
+    plt.ylabel('Latitude (degrees)')
     plt.legend()
     plt.show()
 
@@ -76,6 +78,8 @@ def map_bathing_quality():
 
     plt.title('Bathing water type')
     plt.legend()
+    plt.xlabel('Longitude (degrees)')
+    plt.ylabel('Latitude (degrees)')
     plt.show()
 
     # conduct some simple statistics
