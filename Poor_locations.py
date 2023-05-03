@@ -3,11 +3,13 @@ import mysql.connector
 import pandas as pd
 import geopandas as gpd
 import matplotlib.pyplot as plt
+import re  # Used in sentence_case function
 
-with open('password.txt') as f:
-    my_password = f.readline()
 
-def map_bathing_quality():
+def _obtain_data():
+    with open('password.txt') as f:
+        my_password = f.readline()
+
     # Create a connection to the MySQL database by specifying the host, user, password, and database name:
     mydb = mysql.connector.connect(
         host="localhost",
@@ -31,8 +33,12 @@ def map_bathing_quality():
 
     # Create a pandas DataFrame from the list of tuples:
     df = pd.DataFrame(myresult, columns=['nameText', 'specialisedZoneType', 'lon', 'lat', 'quality2021'])
-    print(df.value_counts('quality2021'))  # Provide a count
-    print(df.value_counts('specialisedZoneType'))
+
+    return df
+
+
+def map_bathing_quality():
+    df = _obtain_data()
 
     # Plotting data
     # load map of France using geopandas
@@ -71,10 +77,10 @@ def map_bathing_quality():
     france.plot(ax=ax, alpha=0.4, color='grey')
 
     # we plot different types in different colours
-    colors = {'coastalBathingWater': 'blue', 'riverBathingWater': 'green', 'lakeBathingWater': 'purple',
+    colors = {'coastalBathingWater': 'lightseagreen', 'riverBathingWater': 'green', 'lakeBathingWater': 'purple',
               'transitionalBathingWater': 'red'}
     for water_type, dff in locations:
-        dff.plot(ax=ax, markersize=2, color=colors[water_type], label=f'{water_type[:-12]}')
+        dff.plot(ax=ax, markersize=2, color=colors[water_type], label=f'{water_type[:-12].title()}')
 
     plt.title('Bathing water type')
     plt.legend()
@@ -82,10 +88,48 @@ def map_bathing_quality():
     plt.ylabel('Latitude (degrees)')
     plt.show()
 
-    # conduct some simple statistics
-    for water_type, dff in locations:
-        print(water_type)
-        print(dff['quality2021'].value_counts())
+
+def _sentence_case(ind):
+    string = str(ind)[0].lower() + str(ind)[1:]
+    result = re.sub('([A-Z])', r' \1', string)
+    return result[0].upper() + result[1:].lower()
 
 
-map_bathing_quality()
+def _process_series(series, color_dict):
+    df_from_series = series.to_frame()
+    df_from_series.apply(_sentence_case, axis=0)
+    df_from_series['colour'] = df_from_series.index.map(color_dict)
+
+    return df_from_series
+
+
+def _pie_chart(df, col: str, colour_dict: dict):
+    series_qual_counts = df.value_counts(col)
+
+    df_qual_counts = _process_series(series_qual_counts, colour_dict)
+
+    # Create pie chart with custom colors and labels
+    labels_sentence_case = [_sentence_case(index) for index in df_qual_counts.index]
+    label_font = {'size': 14}
+    plt.pie(df_qual_counts['count'], labels=labels_sentence_case, colors=df_qual_counts['colour'], autopct='%1.1f%%',
+            pctdistance=1.15, labeldistance=1.35, textprops=label_font)
+
+
+def data_distribution():
+    df = _obtain_data()
+    qual_colors = {'Excellent': 'blue', 'Good': 'green', 'Sufficient': 'yellow', 'Poor': 'red'}
+
+    _pie_chart(df, 'quality2021', qual_colors)
+    font = {'weight': 'bold', 'size':18}
+    plt.title('Water quality distribution', fontdict=font)
+    plt.show()
+
+    loc_colors_dict = {'coastalBathingWater': 'lightseagreen', 'riverBathingWater': 'green',
+                       'lakeBathingWater': 'purple',
+                       'transitionalBathingWater': 'red'}
+
+    _pie_chart(df, 'specialisedZoneType', loc_colors_dict)
+
+    # Display pie chart
+    plt.title('Bathing spot type \n \n', fontdict=font)
+    plt.show()
