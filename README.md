@@ -20,7 +20,13 @@ We assume spatial correlation of data points.
 In this section we identify particularly poors bathing locations on the coast.  
 To account for varying spatial density in data points, and to smooth out effects of outliers, each point is assigned a weight based on its own quality
 and that of its 4 nearest neighbours. To account for the skewed nature of our data, we assign weights as follows:  
-'Excellent': 0
-'Good': 1
-'Sufficient': 4
-'Poor': 5
+'Excellent': 0  
+'Good': 1  
+'Sufficient': 4  
+'Poor': 5  
+
+<p>
+ <center>
+ <img src="https://user-images.githubusercontent.com/64332150/236251849-b1d7401d-e7ac-44d9-8637-743b4f6540f8.png" height="450" />
+ </center>
+</p>
