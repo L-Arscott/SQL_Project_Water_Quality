@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import re  # Used in sentence_case function
 
 
-def _obtain_data():
+def _obtain_data(lon_interval=(-20, 20), lat_interval=(30, 60)):
     with open('password.txt') as f:
         my_password = f.readline()
 
@@ -23,10 +23,10 @@ def _obtain_data():
 
     # Create query
     query = "SELECT nameText, specialisedZoneType, lon, lat, quality2021 " \
-            "FROM fr_bw2021 WHERE lon BETWEEN -20 AND 20 AND lat BETWEEN 30 AND 60 AND quality2021 <> 'Not classified'"
+            "FROM fr_bw2021 WHERE lon BETWEEN %s AND %s AND lat BETWEEN %s AND %s AND quality2021 <> 'Not classified'"
 
     # Issue SQL queries by calling the execute() method of the cursor object:
-    mycursor.execute(query)
+    mycursor.execute(query, (lon_interval[0], lon_interval[1], lat_interval[0], lat_interval[1]))
 
     # Retrieve the results of the query using the fetchall() method:
     myresult = mycursor.fetchall()
@@ -37,8 +37,8 @@ def _obtain_data():
     return df
 
 
-def map_bathing_quality():
-    df = _obtain_data()
+def map_bathing_quality(lon_interval=(-20, 20), lat_interval=(30, 60)):
+    df = _obtain_data(lon_interval, lat_interval)
 
     # Plotting data
     # load map of France using geopandas
@@ -120,7 +120,7 @@ def data_distribution():
     qual_colors = {'Excellent': 'blue', 'Good': 'green', 'Sufficient': 'yellow', 'Poor': 'red'}
 
     _pie_chart(df, 'quality2021', qual_colors)
-    font = {'weight': 'bold', 'size':18}
+    font = {'weight': 'bold', 'size': 18}
     plt.title('Water quality distribution', fontdict=font)
     plt.show()
 
@@ -133,3 +133,11 @@ def data_distribution():
     # Display pie chart
     plt.title('Bathing spot type \n \n', fontdict=font)
     plt.show()
+
+    by_spot_type = df.groupby('specialisedZoneType')
+    for zone, zone_series in by_spot_type:
+        print(zone_series.value_counts('quality2021'))
+        _pie_chart(zone_series, 'quality2021', qual_colors)
+        plt.title(f'{_sentence_case(zone)}: quality distribution', fontdict=font)
+        plt.show()
+
