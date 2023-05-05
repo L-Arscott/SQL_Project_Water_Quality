@@ -13,7 +13,20 @@ Data obtained [here](https://www.eea.europa.eu/data-and-maps/data/bathing-water-
 </p>
  
 ## Case study: Corsica
+We take Corsica as a case study:
+<p>
+ <img src="https://user-images.githubusercontent.com/64332150/236468392-3696aaf7-8fe3-4e74-bc1c-f46e99fca4fd.png" height="400" />
+ <img src="https://user-images.githubusercontent.com/64332150/236476413-2516e4c8-1d6b-4c1d-9897-e7ce9bc08630.png" height="500" />
+</p>
+
+We note 28% of river spots are rated sufficient or poor in Corsica against 16% for the general population.  
+Additionally, only 1 out of 169 coastal locations is rated sufficient or poor (~0.59%), while 5% are rated sufficient or poor accross France.  
+There appears to be a high rate of (sufficient or) poor river locations in Corsica, and a low rate of (sufficient or) poor coastal locations in Corsica.  
+If this discrepency can be made concrete, this appears to be strong evidence against geospatial correlation of river and coastal locations.
+
+### Analysis: Hypergeoetric distribution
 (To do)
+
 
 ## Coastal bathing spots: identification of neighbourhoods with poor bathing spots
 We assume spatial correlation of data points.  
