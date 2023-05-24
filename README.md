@@ -54,6 +54,7 @@ The previous section suggests separating bathing spots by location type in our a
 
 Note the distance units are in degrees, however we may still read off spatial similarity, with a range just under 5 degrees. A next step would be to translate units to a more universal system (such as kilometers) to make this more concrete.
 
+<!---
 ## Coastal bathing spots: identification of neighbourhoods with poor bathing spots
 We assume spatial correlation of data points.  
 In this section we identify particularly poors bathing locations on the coast.  
@@ -69,3 +70,4 @@ and that of its 4 nearest neighbours. To account for the skewed nature of our da
  <img src="https://user-images.githubusercontent.com/64332150/236251849-b1d7401d-e7ac-44d9-8637-743b4f6540f8.png" height="450" />
  </center>
 </p>
+-->
