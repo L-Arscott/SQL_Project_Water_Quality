@@ -1,3 +1,4 @@
+# Computing river bathing spot variogram
 library(RMySQL)
 library(geoR)
 
