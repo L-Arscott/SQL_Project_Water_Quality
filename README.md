@@ -45,6 +45,15 @@ p = 1 - hypergeom.cdf(k-1, N, M, n)
 In other words, the probability of a random sample of river data points being as poor (or worse) as those in Corsica is around 1.5%. Through the same method, the probability of a random sample of coastal points being as good (or better) than those in Corsica is 0.079%.
 
 
+## River bathing spots: variogram
+The previous section suggests separating bathing spots by location type in our analysis. In this section, we aim to model the variance in river bathing spot quality according to spot separation. Below is the variogram for river bathing spots. We have assigned a weight of 0 to 'Excellent' and 'Good' spots, and a weight of 1 to "Sufficient" and "Poor" spots.
+
+<p>
+ <img src="https://github.com/L-Arscott/SQL_Project_Water_Quality/assets/64332150/cb7a1eb0-771b-4412-b8c5-54d161cc4e16" height="300" />
+</p>
+
+Note the distance units are in degrees, however we may still read off spatial similarity, with a range just under 5 degrees. A next step would be to translate units to a more universal system (such as kilometers) to make this more concrete.
+
 ## Coastal bathing spots: identification of neighbourhoods with poor bathing spots
 We assume spatial correlation of data points.  
 In this section we identify particularly poors bathing locations on the coast.  
